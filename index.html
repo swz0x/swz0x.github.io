@@ -1,165 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-        }
-        
-        /* Fallback if image doesn't load */
-        body.no-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            max-width: 80%;
-            animation: fadeIn 1.5s ease;
-        }
-        
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .ip-address {
-            font-size: 2rem;
-            font-family: 'Courier New', monospace;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-        
-        .smiley {
-            font-size: 4rem;
-            margin-top: 20px;
-            animation: bounce 1s infinite alternate;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-20px); }
-        }
-        
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .ip-address {
-                font-size: 1.5rem;
-            }
-            
-            .container {
-                padding: 30px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thx for your ip</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1), #000 90%), url('background.gif');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #afffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    .glow {
+      font-size: 3rem;
+      text-shadow:
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .ip {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #aaffff;
+      text-shadow:
+        0 0 2px #00ffff,
+        0 0 5px #00ffff;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #00ffff,
+          0 0 10px #00ffff,
+          0 0 20px #00ffff,
+          0 0 40px #00ffff;
+      }
+      50% {
+        text-shadow:
+          0 0 2px #007777,
+          0 0 5px #007777,
+          0 0 10px #007777,
+          0 0 20px #007777;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="container">
-        <h1>Thx for your IP</h1>
-        <div class="ip-address" id="ip-address">Loading...</div>
-        <div class="smiley">😊</div>
-    </div>
+  <div class="container">
+    <div class="glow">thx for your ip</div>
+    <div class="ip" id="ip">Fetching IP...</div>
+  </div>
 
-    <script>
-        // Check if background image loaded successfully
-        const bgImg = new Image();
-        bgImg.src = 'background.jpg';
-        bgImg.onerror = function() {
-            document.body.classList.add('no-bg');
-        };
-
-        // Fetch and display IP address
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('ip-address').textContent = data.ip;
-            })
-            .catch(() => {
-                document.getElementById('ip-address').textContent = "Couldn't get IP";
-            });
-
-        // Simple particle effect
-        const particles = document.getElementById('particles');
-        const particleCount = 30;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.width = Math.random() * 10 + 5 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.backgroundColor = 'rgba(255, 255, 255, ' + (Math.random() * 0.5 + 0.1) + ')';
-            particle.style.borderRadius = '50%';
-            particle.style.top = Math.random() * 100 + 'vh';
-            particle.style.left = Math.random() * 100 + 'vw';
-            
-            const animationDuration = Math.random() * 20 + 10;
-            particle.style.animation = `float ${animationDuration}s linear infinite`;
-            
-            const keyframes = `
-                @keyframes float {
-                    0% {
-                        transform: translate(0, 0) rotate(0deg);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(360deg);
-                        opacity: 0;
-                    }
-                }
-            `;
-            
-            const style = document.createElement('style');
-            style.innerHTML = keyframes;
-            document.head.appendChild(style);
-            
-            particles.appendChild(particle);
-        }
-    </script>
+  <script>
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('ip').textContent = data.ip;
+      })
+      .catch(err => {
+        document.getElementById('ip').textContent = 'Failed to fetch IP';
+      });
+  </script>
 </body>
 </html>
